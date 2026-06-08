@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,52 +18,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
+        /* Sidebar */
         .main-sidebar {
-            background: linear-gradient(180deg, #0d47a1, #1565c0);
+            background: #343a40 !important;
         }
 
         .brand-link {
-            background: rgba(255,255,255,0.08);
-            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+            background: #212529 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, .08) !important;
         }
 
         .brand-text {
-            font-weight: 600;
-            color: white !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+        }
+
+        .user-panel {
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .user-panel .info a {
+            color: #fff !important;
+        }
+
+        .nav-header {
+            color: #adb5bd !important;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .nav-sidebar .nav-link {
-            border-radius: 10px;
-            margin-bottom: 5px;
-            color: #ecf0f1;
+            border-radius: 8px;
+            margin: 2px 8px;
         }
 
         .nav-sidebar .nav-link:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, .08);
         }
 
         .nav-sidebar .nav-link.active {
-            background: #ffffff;
-            color: #0d47a1 !important;
-            font-weight: 600;
+            background: #007bff !important;
+            color: #fff !important;
         }
 
-        .content-wrapper {
-            background: #f4f6f9;
+        .nav-sidebar .nav-link.active i {
+            color: #fff !important;
         }
 
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        .sidebar .nav-treeview>.nav-item>.nav-link {
+            margin-left: 15px;
         }
 
-        .main-header {
-            border-bottom: none;
+        .logout-btn {
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+
+        .logout-btn:hover {
+            background: #dc3545 !important;
+            color: #fff !important;
         }
     </style>
 
@@ -71,91 +86,92 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
-<div class="wrapper">
+    <div class="wrapper">
 
-    {{-- NAVBAR --}}
-    @include('layouts.user.navbar')
+        {{-- NAVBAR --}}
+        @include('layouts.user.navbar')
 
-    {{-- SIDEBAR (AMAN DARI ERROR NULL ROLE) --}}
-    @auth
+        {{-- SIDEBAR (AMAN DARI ERROR NULL ROLE) --}}
+        @auth
         @if(auth()->user()->role == 'admin')
-            @include('layouts.user.sidebaradmin')
+        @include('layouts.user.sidebaradmin')
         @else
-            @include('layouts.user.sidebarpetugas')
+        @include('layouts.user.sidebarpetugas')
         @endif
-    @endauth
+        @endauth
 
-    {{-- CONTENT --}}
-    <div class="content-wrapper">
+        {{-- CONTENT --}}
+        <div class="content-wrapper">
 
-        {{-- HEADER --}}
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2 align-items-center">
+            {{-- HEADER --}}
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2 align-items-center">
 
-                    <div class="col-sm-6">
-                        <h1 class="m-0 font-weight-bold text-primary">
-                            @yield('judul', 'Dashboard')
-                        </h1>
+                        <div class="col-sm-6">
+                            <h1 class="m-0 font-weight-bold text-primary">
+                                @yield('judul', 'Dashboard')
+                            </h1>
+                        </div>
+
+                        <div class="col-sm-6 text-right">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-alt"></i>
+                                {{ date('d F Y') }}
+                            </small>
+                        </div>
+
                     </div>
-
-                    <div class="col-sm-6 text-right">
-                        <small class="text-muted">
-                            <i class="fas fa-calendar-alt"></i>
-                            {{ date('d F Y') }}
-                        </small>
-                    </div>
-
                 </div>
             </div>
-        </div>
 
-        {{-- MAIN CONTENT --}}
-        <section class="content">
-            <div class="container-fluid">
+            {{-- MAIN CONTENT --}}
+            <section class="content">
+                <div class="container-fluid">
 
-                {{-- SUCCESS --}}
-                @if(session('success'))
+                    {{-- SUCCESS --}}
+                    @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         {{ session('success') }}
                     </div>
-                @endif
+                    @endif
 
-                {{-- ERROR --}}
-                @if(session('error'))
+                    {{-- ERROR --}}
+                    @if(session('error'))
                     <div class="alert alert-danger alert-dismissible fade show">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         {{ session('error') }}
                     </div>
-                @endif
+                    @endif
 
-                @yield('content')
+                    @yield('content')
 
-            </div>
-        </section>
+                </div>
+            </section>
+
+        </div>
+
+        {{-- FOOTER --}}
+        @include('layouts.user.footer')
 
     </div>
 
-    {{-- FOOTER --}}
-    @include('layouts.user.footer')
+    {{-- SCRIPT --}}
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
-</div>
+    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 
-{{-- SCRIPT --}}
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+    {{-- ✅ TAMBAH SELECT2 --}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-
-{{-- ✅ TAMBAH SELECT2 --}}
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-{{-- 🔥 FIX PENTING --}}
-@stack('scripts')
+    {{-- 🔥 FIX PENTING --}}
+    @stack('scripts')
 
 </body>
+
 </html>

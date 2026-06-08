@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class ControllerUser extends Controller
 {
@@ -17,7 +15,11 @@ class ControllerUser extends Controller
     public function index()
     {
         $users = User::latest()->get();
-        return view('user.user.index', compact('users'));
+
+        return view(
+            'user.user.index',
+            compact('users')
+        );
     }
 
     /**
@@ -34,30 +36,57 @@ class ControllerUser extends Controller
     public function store(Request $request)
     {
         $request->validate([
+
             'namauser' => 'required',
-            'username'  => 'required|unique:user,username',
-            'password'  => 'required',
-            'role'      => 'required',
-            'foto'      => 'nullable|image|mimes:jpg,png,jpeg'
+
+            'username' => 'required|unique:user,username',
+
+            'password' => 'required|min:6',
+
+            'role' => 'required',
+
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+
         ]);
 
-        $fotoPath = null;
+        $namaFoto = null;
 
         if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('user', 'public');
+
+            $file = $request->file('foto');
+
+            $namaFoto = time() . '_' . $file->getClientOriginalName();
+
+            $file->move(
+                public_path('fotoupload/user'),
+                $namaFoto
+            );
         }
 
         User::create([
+
             'namauser' => $request->namauser,
+
             'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'role'     => $request->role,
-            'status'   => 'pending',
-            'foto'     => $fotoPath
+
+            'password' => Hash::make(
+                $request->password
+            ),
+
+            'role' => $request->role,
+
+            'status' => 'pending',
+
+            'foto' => $namaFoto
+
         ]);
 
-        return redirect()->route('user.index')
-            ->with('success', 'User berhasil ditambahkan');
+        return redirect()
+            ->route('user.index')
+            ->with(
+                'success',
+                'User berhasil ditambahkan'
+            );
     }
 
     /**
@@ -66,7 +95,11 @@ class ControllerUser extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('user.user.show', compact('user'));
+
+        return view(
+            'user.user.show',
+            compact('user')
+        );
     }
 
     /**
@@ -75,36 +108,107 @@ class ControllerUser extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('user.user.edit', compact('user'));
+
+        return view(
+            'user.user.edit',
+            compact('user')
+        );
     }
 
     /**
      * UPDATE
      */
     public function update(Request $request, $id)
-{
-    $user = User::findOrFail($id);
+    {
+        $user = User::findOrFail($id);
 
-    $data = [
-        'namauser' => $request->namauser ?? $user->namauser,
-        'username' => $request->username ?? $user->username,
-        'role' => $request->role ?? $user->role,
-    ];
+        $data = [
 
-    // 🔥 STATUS UPDATE (approve / reject)
-    if ($request->status) {
-        $data['status'] = $request->status;
+            'namauser' => $request->namauser
+                ?? $user->namauser,
 
-        if ($request->status == 'setujui') {
-            $data['setujui'] = now();
+            'username' => $request->username
+                ?? $user->username,
+
+            'role' => $request->role
+                ?? $user->role,
+
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | STATUS
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('status')) {
+
+            $data['status'] = $request->status;
+
+            if ($request->status == 'setujui') {
+
+                $data['setujui'] = now();
+            }
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | PASSWORD
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('password')) {
+
+            $data['password'] = Hash::make(
+                $request->password
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | FOTO
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->hasFile('foto')) {
+
+            if (
+                $user->foto &&
+                file_exists(
+                    public_path(
+                        'fotoupload/user/' . $user->foto
+                    )
+                )
+            ) {
+                unlink(
+                    public_path(
+                        'fotoupload/user/' . $user->foto
+                    )
+                );
+            }
+
+            $file = $request->file('foto');
+
+            $namaFoto = time() . '_' .
+                $file->getClientOriginalName();
+
+            $file->move(
+                public_path('fotoupload/user'),
+                $namaFoto
+            );
+
+            $data['foto'] = $namaFoto;
+        }
+
+        $user->update($data);
+
+        return redirect()
+            ->route('user.index')
+            ->with(
+                'success',
+                'User berhasil diupdate'
+            );
     }
-
-    $user->update($data);
-
-    return redirect()->route('user.index')
-        ->with('success', 'User berhasil diupdate');
-}
 
     /**
      * DELETE
@@ -113,13 +217,28 @@ class ControllerUser extends Controller
     {
         $user = User::findOrFail($id);
 
-        if ($user->foto) {
-            Storage::disk('public')->delete($user->foto);
+        if (
+            $user->foto &&
+            file_exists(
+                public_path(
+                    'fotoupload/user/' . $user->foto
+                )
+            )
+        ) {
+            unlink(
+                public_path(
+                    'fotoupload/user/' . $user->foto
+                )
+            );
         }
 
         $user->delete();
 
-        return redirect()->route('user.index')
-            ->with('success', 'User berhasil dihapus');
+        return redirect()
+            ->route('user.index')
+            ->with(
+                'success',
+                'User berhasil dihapus'
+            );
     }
 }

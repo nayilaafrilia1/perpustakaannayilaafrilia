@@ -7,53 +7,165 @@
 <div id="heroSlider"
      class="carousel slide carousel-fade"
      data-ride="carousel"
-     data-interval="5000">
+     data-interval="4000">
 
-<ol class="carousel-indicators">
-    <li data-target="#heroSlider" data-slide-to="0" class="active"></li>
-    <li data-target="#heroSlider" data-slide-to="1"></li>
-    <li data-target="#heroSlider" data-slide-to="2"></li>
-</ol>
+    <ol class="carousel-indicators">
+        <li data-target="#heroSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#heroSlider" data-slide-to="1"></li>
+        <li data-target="#heroSlider" data-slide-to="2"></li>
+    </ol>
 
-<div class="carousel-inner">
+    <div class="carousel-inner">
 
-    <div class="carousel-item active">
+        {{-- Slide 1 --}}
+        <div class="carousel-item active">
 
-        <div class="hero-slide">
+            <div class="hero-slide"
+                 style="
+                    background:
+                    linear-gradient(
+                        rgba(0,0,0,.55),
+                        rgba(0,0,0,.55)
+                    ),
+                    url('{{ asset('dist/img/photo1.png') }}');
+                 ">
 
-            <div class="container h-100">
+                <div class="container">
 
-                <div class="row h-100 align-items-center">
+                    <div class="row align-items-center">
 
-                    <div class="col-lg-7 text-white">
+                        <div class="col-lg-7">
 
-                        <span class="hero-badge">
-                            📚 Perpustakaan Digital Sekolah
-                        </span>
+                            <div class="hero-content text-white">
 
-                        <h1 class="hero-title">
-                            Membaca Lebih Mudah,
-                            Belajar Lebih Cerdas
-                        </h1>
+                                <span class="hero-badge">
+                                    📚 Perpustakaan Digital
+                                </span>
 
-                        <p class="hero-subtitle">
-                            Temukan berbagai koleksi buku terbaik
-                            untuk menunjang kegiatan belajar.
-                        </p>
+                                <h1 class="hero-title">
+                                    Membaca Lebih Mudah,
+                                    Belajar Lebih Cerdas
+                                </h1>
 
-                        <a href="{{ url('/katalog') }}"
-                           class="btn btn-warning btn-lg rounded-pill mr-2">
+                                <p class="hero-subtitle">
+                                    Temukan berbagai koleksi buku terbaik
+                                    untuk menunjang kegiatan belajar
+                                    dan meningkatkan literasi digital.
+                                </p>
 
-                            Jelajahi Buku
+                                <a href="{{ url('/katalog') }}"
+                                   class="btn btn-warning rounded-pill mr-2">
 
-                        </a>
+                                    Jelajahi Buku
 
-                        <a href="{{ url('/register/peminjam') }}"
-                           class="btn btn-light btn-lg rounded-pill">
+                                </a>
 
-                            Daftar Sekarang
+                                <a href="{{ route('registerpeminjam') }}"
+                                   class="btn btn-light rounded-pill">
 
-                        </a>
+                                    Daftar Sekarang
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- Slide 2 --}}
+        <div class="carousel-item">
+
+            <div class="hero-slide"
+                 style="
+                    background:
+                    linear-gradient(
+                        rgba(0,0,0,.55),
+                        rgba(0,0,0,.55)
+                    ),
+                    url('{{ asset('dist/img/photo2.png') }}');
+                 ">
+
+                <div class="container">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-7">
+
+                            <div class="hero-content text-white">
+
+                                <span class="hero-badge">
+                                    📖 Koleksi Lengkap
+                                </span>
+
+                                <h1 class="hero-title">
+                                    Ribuan Buku Dalam
+                                    Satu Sistem
+                                </h1>
+
+                                <p class="hero-subtitle">
+                                    Buku pelajaran, teknologi,
+                                    novel, agama, dan referensi
+                                    lainnya tersedia untuk dipinjam.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- Slide 3 --}}
+        <div class="carousel-item">
+
+            <div class="hero-slide"
+                 style="
+                    background:
+                    linear-gradient(
+                        rgba(0,0,0,.55),
+                        rgba(0,0,0,.55)
+                    ),
+                    url('{{ asset('dist/img/photo4.jpg') }}');
+                 ">
+
+                <div class="container">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-7">
+
+                            <div class="hero-content text-white">
+
+                                <span class="hero-badge">
+                                    🚀 Literasi Digital
+                                </span>
+
+                                <h1 class="hero-title">
+                                    Belajar Kapan Saja
+                                    dan Dimana Saja
+                                </h1>
+
+                                <p class="hero-subtitle">
+                                    Akses perpustakaan melalui
+                                    komputer maupun smartphone
+                                    dengan mudah.
+                                </p>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -65,74 +177,6 @@
 
     </div>
 
-    <div class="carousel-item">
-
-        <div class="hero-slide">
-
-            <div class="container h-100">
-
-                <div class="row h-100 align-items-center">
-
-                    <div class="col-lg-7 text-white">
-
-                        <span class="hero-badge">
-                            📖 Koleksi Lengkap
-                        </span>
-
-                        <h1 class="hero-title">
-                            Ribuan Buku
-                            Dalam Satu Sistem
-                        </h1>
-
-                        <p class="hero-subtitle">
-                            Buku pelajaran, teknologi,
-                            agama, novel dan referensi lainnya.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="carousel-item">
-
-        <div class="hero-slide">
-
-            <div class="container h-100">
-
-                <div class="row h-100 align-items-center">
-
-                    <div class="col-lg-7 text-white">
-
-                        <span class="hero-badge">
-                            🚀 Literasi Digital
-                        </span>
-
-                        <h1 class="hero-title">
-                            Belajar Kapan Saja
-                        </h1>
-
-                        <p class="hero-subtitle">
-                            Akses perpustakaan melalui
-                            laptop maupun smartphone.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 </div>
 
 @endsection
@@ -283,88 +327,78 @@
 <style>
 
 .hero-slide{
-height:100vh;
+    height:500px;
+    background-size:cover !important;
+    background-position:center !important;
+    display:flex;
+    align-items:center;
+}
 
-background:
-linear-gradient(
-    135deg,
-    rgba(0,123,255,.85),
-    rgba(52,152,219,.85)
-),
-url('{{ asset("dist/img/library1.jpg") }}');
-
-background-size:cover;
-background-position:center;
-
-display:flex;
-align-items:center;
-
+.hero-content{
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(10px);
+    padding:30px;
+    border-radius:20px;
+    max-width:650px;
 }
 
 .hero-title{
-font-size:4rem;
-font-weight:700;
-margin-top:20px;
-margin-bottom:20px;
+    font-size:3rem;
+    font-weight:700;
+    margin-top:15px;
+    margin-bottom:15px;
 }
 
 .hero-subtitle{
-font-size:1.2rem;
-max-width:600px;
-opacity:.95;
+    font-size:1.1rem;
+    line-height:1.8;
 }
 
 .hero-badge{
-display:inline-block;
-
-padding:10px 20px;
-
-background:rgba(255,255,255,.2);
-
-backdrop-filter:blur(10px);
-
-border-radius:50px;
-
-color:white;
-
-font-weight:600;
-
+    display:inline-block;
+    padding:10px 20px;
+    background:rgba(255,255,255,.20);
+    border-radius:50px;
+    font-weight:600;
 }
 
 .carousel-indicators li{
-width:12px;
-height:12px;
-border-radius:50%;
+    width:12px;
+    height:12px;
+    border-radius:50%;
 }
 
 .carousel-item{
-transition:1s ease-in-out;
+    transition:.8s ease-in-out;
 }
 
 .buku-card{
-border-radius:20px;
-overflow:hidden;
-transition:.3s;
+    border-radius:20px;
+    overflow:hidden;
+    transition:.3s;
 }
 
 .buku-card:hover{
-transform:translateY(-10px);
-box-shadow:0 20px 40px rgba(0,0,0,.15);
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
 }
 
 @media(max-width:768px){
 
+    .hero-slide{
+        height:400px;
+        text-align:center;
+    }
 
-.hero-title{
-    font-size:2.5rem;
+    .hero-title{
+        font-size:2rem;
+    }
+
+    .hero-content{
+        padding:20px;
+    }
+
 }
-
-.hero-slide{
-    text-align:center;
-}
-
-}
-
 
 </style>
 

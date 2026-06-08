@@ -7,93 +7,134 @@ use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use App\Models\Peminjam;
 use App\Models\Peminjaman;
-use App\Models\User;
 use App\Models\DetailPeminjaman;
+use App\Models\User;
 
 class ControllerDashboardAdmin extends Controller
 {
-    /**
-     * =========================================================
-     * DASHBOARD ADMIN
-     * =========================================================
-     */
     public function index()
     {
         /*
-        |=========================================================
+        |--------------------------------------------------------------------------
         | STATISTIK
-        |=========================================================
+        |--------------------------------------------------------------------------
         */
 
-        $totalBuku         = Buku::count();
+        $totalBuku = Buku::count();
 
-        $totalPeminjam     = Peminjam::count();
+        $totalPeminjam = Peminjam::count();
 
-        $totalUser         = User::count();
+        $totalUser = User::count();
 
-        $totalPeminjaman   = Peminjaman::count();
+        $totalPeminjaman = Peminjaman::count();
 
-        $totalDipinjam     = DetailPeminjaman::where(
-                                    'keterangan',
-                                    'belumkembali'
-                                )->count();
+        $totalDipinjam = DetailPeminjaman::where(
+            'keterangan',
+            'belumkembali'
+        )->count();
 
         $totalDikembalikan = DetailPeminjaman::where(
-                                        'keterangan',
-                                        'sudahkembali'
-                                    )->count();
+            'keterangan',
+            'sudahkembali'
+        )->count();
 
-        $totalTerlambat    = DetailPeminjaman::where(
-                                        'status',
-                                        'terlambat'
-                                    )->count();
+        $totalTerlambat = DetailPeminjaman::where(
+            'status',
+            'terlambat'
+        )->count();
 
         /*
-        |=========================================================
-        | BUKU TERBARU
-        |=========================================================
+        |--------------------------------------------------------------------------
+        | TOTAL DENDA
+        |--------------------------------------------------------------------------
         */
 
-        $bukuTerbaru = Buku::latest()
-                            ->take(8)
-                            ->get();
+        $totalDenda = DetailPeminjaman::sum('denda');
 
         /*
-        |=========================================================
+        |--------------------------------------------------------------------------
+        | GRAFIK PEMINJAMAN
+        |--------------------------------------------------------------------------
+        */
+
+        $grafikPeminjaman = [];
+
+        for ($bulan = 1; $bulan <= 12; $bulan++) {
+
+            $grafikPeminjaman[] = DetailPeminjaman::whereYear(
+                'tanggalpinjam',
+                date('Y')
+            )
+            ->whereMonth(
+                'tanggalpinjam',
+                $bulan
+            )
+            ->count();
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | BUKU TERBARU
+        |--------------------------------------------------------------------------
+        */
+
+        $bukuTerbaru = Buku::with('kategori')
+            ->latest()
+            ->take(8)
+            ->get();
+
+        /*
+        |--------------------------------------------------------------------------
         | TRANSAKSI TERBARU
-        |=========================================================
+        |--------------------------------------------------------------------------
         */
 
         $transaksiTerbaru = DetailPeminjaman::with([
-                                    'buku',
-                                    'peminjaman.peminjam'
-                                ])
-                                ->latest()
-                                ->take(10)
-                                ->get();
+                'buku',
+                'peminjaman',
+                'peminjaman.peminjam'
+            ])
+            ->latest()
+            ->take(10)
+            ->get();
 
-        return view('user.dashboard.dashboardadmin', [
+        /*
+        |--------------------------------------------------------------------------
+        | BUKU TERLAMBAT
+        |--------------------------------------------------------------------------
+        */
 
-            'title'                => 'Dashboard Admin',
+        $bukuTerlambat = DetailPeminjaman::with([
+                'buku',
+                'peminjaman.peminjam'
+            ])
+            ->where('status', 'terlambat')
+            ->latest()
+            ->take(5)
+            ->get();
 
-            'totalBuku'            => $totalBuku,
+        /*
+        |--------------------------------------------------------------------------
+        | VIEW
+        |--------------------------------------------------------------------------
+        */
 
-            'totalPeminjam'        => $totalPeminjam,
-
-            'totalUser'            => $totalUser,
-
-            'totalPeminjaman'      => $totalPeminjaman,
-
-            'totalDipinjam'        => $totalDipinjam,
-
-            'totalDikembalikan'    => $totalDikembalikan,
-
-            'totalTerlambat'       => $totalTerlambat,
-
-            'bukuTerbaru'          => $bukuTerbaru,
-
-            'transaksiTerbaru'     => $transaksiTerbaru,
-
-        ]);
+        return view(
+            'user.dashboard.dashboardadmin',
+            compact(
+                'totalBuku',
+                'totalPeminjam',
+                'totalUser',
+                'totalPeminjaman',
+                'totalDipinjam',
+                'totalDikembalikan',
+                'totalTerlambat',
+                'totalDenda',
+                'grafikPeminjaman',
+                'bukuTerbaru',
+                'transaksiTerbaru',
+                'bukuTerlambat'
+            )
+        );
     }
 }

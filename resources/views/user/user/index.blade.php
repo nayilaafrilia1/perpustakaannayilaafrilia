@@ -6,62 +6,128 @@
 
 <div class="container-fluid">
 
-    <div class="card card-primary card-outline">
+    <div class="card card-primary card-outline shadow">
 
         <div class="card-header">
-            <h3 class="card-title">Data User</h3>
+
+            <h3 class="card-title">
+                <i class="fas fa-users mr-1"></i>
+                Data User
+            </h3>
 
             <div class="card-tools">
-                <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">
+
+                <a href="{{ route('user.create') }}"
+                   class="btn btn-primary btn-sm">
+
                     <i class="fas fa-plus"></i>
+                    Tambah User
+
                 </a>
+
             </div>
+
         </div>
 
-        <div class="card-body">
+        <div class="card-body table-responsive">
 
-            <table class="table table-bordered table-striped text-sm">
-                <thead>
+            <table class="table table-bordered table-hover table-striped">
+
+                <thead class="text-center">
+
                     <tr>
-                        <th>No</th>
-                        <th>Foto</th>
+
+                        <th width="60">No</th>
+                        <th width="90">Foto</th>
                         <th>Nama</th>
                         <th>Username</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th width="160">Aksi</th>
+                        <th width="100">Role</th>
+                        <th width="100">Status</th>
+                        <th width="220">Aksi</th>
+
                     </tr>
+
                 </thead>
 
                 <tbody>
-                    @foreach($users as $i => $u)
+
+                    @forelse($users as $i => $u)
+
                     <tr>
 
-                        <td>{{ $i + 1 }}</td>
-
-                        <td>
-                            <img src="{{ asset('storage/'.$u->foto) }}"
-                                 width="35"
-                                 class="img-circle">
+                        <td class="text-center">
+                            {{ $i + 1 }}
                         </td>
 
-                        <td>{{ $u->namauser }}</td>
-                        <td>{{ $u->username }}</td>
+                        <td class="text-center">
 
-                        <td>
-                            <span class="badge badge-info">
-                                {{ $u->role }}
-                            </span>
-                        </td>
+                            @if(!empty($u->foto))
 
-                        <td>
-                            @if($u->status == 'setujui')
-                                <span class="badge badge-success">✔</span>
-                            @elseif($u->status == 'pending')
-                                <span class="badge badge-warning">⏳</span>
+                                <img src="{{ asset('fotoupload/user/'.$u->foto) }}"
+                                     width="45"
+                                     height="45"
+                                     class="img-circle elevation-2"
+                                     style="object-fit:cover;">
+
                             @else
-                                <span class="badge badge-danger">✖</span>
+
+                                <img src="{{ asset('dist/img/avatar5.png') }}"
+                                     width="45"
+                                     height="45"
+                                     class="img-circle elevation-2">
+
                             @endif
+
+                        </td>
+
+                        <td>
+                            {{ $u->namauser }}
+                        </td>
+
+                        <td>
+                            {{ $u->username }}
+                        </td>
+
+                        <td class="text-center">
+
+                            @if($u->role == 'admin')
+
+                                <span class="badge badge-info">
+                                    Admin
+                                </span>
+
+                            @else
+
+                                <span class="badge badge-success">
+                                    Petugas
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <td class="text-center">
+
+                            @if($u->status == 'setujui')
+
+                                <span class="badge badge-success">
+                                    Aktif
+                                </span>
+
+                            @elseif($u->status == 'pending')
+
+                                <span class="badge badge-warning">
+                                    Pending
+                                </span>
+
+                            @else
+
+                                <span class="badge badge-danger">
+                                    Ditolak
+                                </span>
+
+                            @endif
+
                         </td>
 
                         <td class="text-center">
@@ -69,45 +135,62 @@
                             {{-- DETAIL --}}
                             <a href="{{ route('user.show', $u->id) }}"
                                class="btn btn-info btn-xs">
+
                                 <i class="fas fa-eye"></i>
+
                             </a>
 
                             {{-- EDIT --}}
                             <a href="{{ route('user.edit', $u->id) }}"
                                class="btn btn-warning btn-xs">
+
                                 <i class="fas fa-edit"></i>
+
                             </a>
 
                             {{-- APPROVE --}}
                             @if($u->status == 'pending')
 
-                                <form action="{{ route('user.update', $u->id) }}"
-                                      method="POST"
-                                      class="d-inline approve-form">
-                                    @csrf
-                                    @method('PUT')
+                            <form action="{{ route('user.update', $u->id) }}"
+                                  method="POST"
+                                  class="d-inline approve-form">
 
-                                    <input type="hidden" name="status" value="setujui">
+                                @csrf
+                                @method('PUT')
 
-                                    <button type="button"
-                                            class="btn btn-success btn-xs btn-approve">
-                                        <i class="fas fa-check"></i>
-                                    </button>
-                                </form>
+                                <input type="hidden"
+                                       name="status"
+                                       value="setujui">
 
-                                <form action="{{ route('user.update', $u->id) }}"
-                                      method="POST"
-                                      class="d-inline reject-form">
-                                    @csrf
-                                    @method('PUT')
+                                <button type="button"
+                                        class="btn btn-success btn-xs btn-approve">
 
-                                    <input type="hidden" name="status" value="tolak">
+                                    <i class="fas fa-check"></i>
 
-                                    <button type="button"
-                                            class="btn btn-dark btn-xs btn-reject">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </form>
+                                </button>
+
+                            </form>
+
+                            {{-- REJECT --}}
+                            <form action="{{ route('user.update', $u->id) }}"
+                                  method="POST"
+                                  class="d-inline reject-form">
+
+                                @csrf
+                                @method('PUT')
+
+                                <input type="hidden"
+                                       name="status"
+                                       value="tolak">
+
+                                <button type="button"
+                                        class="btn btn-dark btn-xs btn-reject">
+
+                                    <i class="fas fa-times"></i>
+
+                                </button>
+
+                            </form>
 
                             @endif
 
@@ -115,19 +198,38 @@
                             <form action="{{ route('user.destroy', $u->id) }}"
                                   method="POST"
                                   class="d-inline delete-form">
+
                                 @csrf
                                 @method('DELETE')
 
                                 <button type="button"
                                         class="btn btn-danger btn-xs btn-delete">
+
                                     <i class="fas fa-trash"></i>
+
                                 </button>
+
                             </form>
 
                         </td>
 
                     </tr>
-                    @endforeach
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="text-center text-muted">
+
+                            Tidak ada data user
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
                 </tbody>
 
             </table>
@@ -139,73 +241,88 @@
 </div>
 
 @endsection
+
 @push('scripts')
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+
 document.querySelectorAll('.btn-approve').forEach(btn => {
-    btn.addEventListener('click', function () {
+
+    btn.addEventListener('click', function(){
 
         let form = this.closest('form');
 
         Swal.fire({
-            title: 'Setujui user ini?',
-            text: "User akan diaktifkan",
+            title: 'Setujui User?',
+            text: 'User akan diaktifkan',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Setujui'
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
         }).then((result) => {
-            if (result.isConfirmed) {
+
+            if(result.isConfirmed){
                 form.submit();
             }
+
         });
 
     });
+
 });
 
 document.querySelectorAll('.btn-reject').forEach(btn => {
-    btn.addEventListener('click', function () {
+
+    btn.addEventListener('click', function(){
 
         let form = this.closest('form');
 
         Swal.fire({
-            title: 'Tolak user ini?',
-            text: "User tidak akan bisa login",
+            title: 'Tolak User?',
+            text: 'User tidak dapat login',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#343a40',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Tolak'
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal'
         }).then((result) => {
-            if (result.isConfirmed) {
+
+            if(result.isConfirmed){
                 form.submit();
             }
+
         });
 
     });
+
 });
 
 document.querySelectorAll('.btn-delete').forEach(btn => {
-    btn.addEventListener('click', function () {
+
+    btn.addEventListener('click', function(){
 
         let form = this.closest('form');
 
         Swal.fire({
-            title: 'Hapus user?',
-            text: "Data tidak bisa dikembalikan!",
+            title: 'Hapus Data?',
+            text: 'Data tidak bisa dikembalikan',
             icon: 'error',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: 'Hapus'
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal'
         }).then((result) => {
-            if (result.isConfirmed) {
+
+            if(result.isConfirmed){
                 form.submit();
             }
+
         });
 
     });
+
 });
+
 </script>
+
 @endpush

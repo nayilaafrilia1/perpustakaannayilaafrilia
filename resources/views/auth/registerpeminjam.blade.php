@@ -7,46 +7,44 @@
 <div class="register-page"
      style="
         min-height:100vh;
-        background:
-        linear-gradient(
-            rgba(25,135,84,0.90),
-            rgba(13,110,253,0.85)
-        ),
-        url('{{ asset('dist/img/photo4.jpg') }}');
-        background-size: cover;
-        background-position:center;
-    ">
+        background:linear-gradient(135deg,#eef2ff,#dbeafe);
+        padding:30px 0;
+     ">
 
     <div class="register-box"
-         style="width:700px;">
+         style="max-width:900px;width:95%;">
 
-        <div class="card border-0 shadow-lg"
-             style="border-radius:20px; overflow:hidden;">
+        <div class="card register-card shadow-lg border-0">
 
-            <div class="card-body register-card-body p-5">
+            {{-- Header --}}
+            <div class="register-header">
 
-                <div class="text-center mb-4">
-
-                    <div class="bg-success rounded-circle d-inline-flex justify-content-center align-items-center shadow"
-                         style="width:90px;height:90px;">
-
-                        <i class="fas fa-book-reader text-white fa-3x"></i>
-
-                    </div>
-
-                    <h2 class="font-weight-bold text-success mt-3">
-
-                        Registrasi Peminjam
-
-                    </h2>
-
-                    <p class="text-muted">
-
-                        Daftar akun perpustakaan digital sekolah
-
-                    </p>
-
+                <div class="logo-circle">
+                    <i class="fas fa-user-plus"></i>
                 </div>
+
+                <h2 class="mt-3 mb-1 font-weight-bold text-white">
+                    Registrasi Peminjam
+                </h2>
+
+                <p class="text-white mb-0">
+                    Daftar akun Perpustakaan Digital
+                </p>
+
+            </div>
+
+            {{-- Body --}}
+            <div class="card-body register-card-body">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <form action="{{ route('prosesregisterpeminjam') }}"
                       method="POST"
@@ -56,179 +54,158 @@
 
                     <div class="row">
 
-                        {{-- NAMA --}}
+                        {{-- Nama --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>Nama Lengkap</label>
-
-                                <input type="text"
-                                       name="namapeminjam"
-                                       class="form-control"
-                                       required>
-
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text"
+                                           name="namapeminjam"
+                                           class="form-control"
+                                           required>
+                                </div>
                             </div>
-
                         </div>
 
-                        {{-- USERNAME --}}
+                        {{-- Username --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>Username</label>
-
-                                <input type="text"
-                                       name="username"
-                                       class="form-control"
-                                       required>
-
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-id-card"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text"
+                                           name="username"
+                                           class="form-control"
+                                           required>
+                                </div>
                             </div>
-
                         </div>
 
-                        {{-- PASSWORD --}}
+                        {{-- Password --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
 
-                                <input type="password"
-                                       name="password"
-                                       class="form-control"
-                                       required>
+                                    <input type="password"
+                                           id="password"
+                                           name="password"
+                                           class="form-control"
+                                           required>
 
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"
+                                              onclick="togglePassword()"
+                                              style="cursor:pointer;">
+                                            <i id="eye"
+                                               class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+
+                                </div>
                             </div>
-
                         </div>
 
-                        {{-- NOMOR HP --}}
+                        {{-- Nomor HP --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>Nomor HP</label>
-
-                                <input type="text"
-                                       name="nomorhp"
-                                       class="form-control">
-
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-phone"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text"
+                                           name="nomorhp"
+                                           class="form-control">
+                                </div>
                             </div>
-
                         </div>
 
-                        {{-- JENIS --}}
+                        {{-- Jenis Peminjam --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>Jenis Peminjam</label>
-
                                 <select name="jenis_peminjam"
                                         class="form-control">
-
-                                    <option value="siswa">
-                                        Siswa
-                                    </option>
-
-                                    <option value="guru">
-                                        Guru
-                                    </option>
-
-                                    <option value="umum">
-                                        Umum
-                                    </option>
-
+                                    <option value="siswa">Siswa</option>
+                                    <option value="guru">Guru</option>
+                                    <option value="umum">Umum</option>
                                 </select>
-
                             </div>
-
                         </div>
 
-                        {{-- KELAS --}}
+                        {{-- Kelas --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>Kelas</label>
-
                                 <input type="text"
                                        name="kelas"
                                        class="form-control">
-
                             </div>
-
                         </div>
 
                         {{-- NISN --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>NISN</label>
-
                                 <input type="text"
                                        name="nisn"
                                        class="form-control">
-
                             </div>
-
                         </div>
 
-                        {{-- TAHUN AKADEMIK --}}
+                        {{-- Tahun Akademik --}}
                         <div class="col-md-6">
-
                             <div class="form-group">
-
                                 <label>Tahun Akademik</label>
-
                                 <input type="text"
                                        name="tahun_akademik"
                                        class="form-control">
-
                             </div>
-
                         </div>
 
-                        {{-- FOTO --}}
+                        {{-- Foto --}}
                         <div class="col-md-12">
-
                             <div class="form-group">
-
-                                <label>Foto</label>
-
+                                <label>Foto Profil</label>
                                 <input type="file"
                                        name="foto"
                                        class="form-control">
-
                             </div>
-
                         </div>
 
-                        {{-- ALAMAT --}}
+                        {{-- Alamat --}}
                         <div class="col-md-12">
-
                             <div class="form-group">
-
                                 <label>Alamat</label>
-
                                 <textarea name="alamat"
                                           rows="4"
                                           class="form-control"></textarea>
-
                             </div>
-
                         </div>
 
                     </div>
 
                     <button type="submit"
-                            class="btn btn-success btn-block rounded-pill py-2 shadow">
+                            class="btn btn-register btn-block">
 
                         <i class="fas fa-user-plus mr-2"></i>
-
                         Daftar Sekarang
 
                     </button>
@@ -240,9 +217,10 @@
                 <div class="text-center">
 
                     <a href="{{ route('loginpeminjam') }}"
-                       class="text-success">
+                       class="btn btn-outline-primary">
 
-                        Sudah punya akun? Login disini
+                        <i class="fas fa-sign-in-alt mr-1"></i>
+                        Sudah Punya Akun? Login
 
                     </a>
 
@@ -255,5 +233,100 @@
     </div>
 
 </div>
+
+<style>
+
+.register-card{
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.register-header{
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #2563eb
+    );
+    padding:35px;
+    text-align:center;
+}
+
+.logo-circle{
+    width:95px;
+    height:95px;
+    margin:auto;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    border:3px solid rgba(255,255,255,.3);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo-circle i{
+    color:white;
+    font-size:40px;
+}
+
+.register-card-body{
+    padding:35px;
+}
+
+.form-control{
+    border-radius:10px;
+}
+
+.input-group-text{
+    background:#eef2ff;
+    color:#4f46e5;
+    border:none;
+}
+
+.btn-register{
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #2563eb
+    );
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:12px;
+    font-weight:600;
+}
+
+.btn-register:hover{
+    color:white;
+}
+
+.card{
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+</style>
+
+<script>
+function togglePassword()
+{
+    let password = document.getElementById('password');
+    let eye = document.getElementById('eye');
+
+    if(password.type === 'password')
+    {
+        password.type = 'text';
+        eye.classList.replace('fa-eye','fa-eye-slash');
+    }
+    else
+    {
+        password.type = 'password';
+        eye.classList.replace('fa-eye-slash','fa-eye');
+    }
+}
+</script>
 
 @endsection

@@ -1,114 +1,92 @@
-<aside class="main-sidebar sidebar-dark-success elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
 
     {{-- Brand Logo --}}
     <a href="{{ route('dashboardpeminjam') }}" class="brand-link">
 
-        <div class="d-flex align-items-center">
+        <img src="{{ asset('dist/img/AdminLTELogo.png') }}"
+             alt="Logo"
+             class="brand-image img-circle elevation-3"
+             style="opacity:.8">
 
-            <div class="bg-white rounded-circle d-flex justify-content-center align-items-center mr-2"
-                style="width:42px; height:42px;">
-                <i class="fas fa-book-reader text-success"></i>
-            </div>
-
-            <div>
-                <span class="brand-text font-weight-bold d-block">
-                    Perpustakaan
-                </span>
-
-                <small style="font-size:11px; color:#dfe6e9;">
-                    Zona Peminjam
-                </small>
-            </div>
-
-        </div>
+        <span class="brand-text font-weight-light">
+            Perpustakaan
+        </span>
 
     </a>
 
     <div class="sidebar">
 
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center border-bottom">
+        {{-- User Panel --}}
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
             <div class="image">
                 <img src="{{ asset('dist/img/avatar5.png') }}"
-                    class="img-circle elevation-2"
-                    style="width:50px; height:50px; object-fit:cover;">
+                     class="img-circle elevation-2"
+                     alt="User Image">
             </div>
 
             <div class="info">
-                <a href="#" class="d-block font-weight-bold text-white">
+                <a href="#" class="d-block">
                     {{ auth('peminjam')->user()->nama ?? 'Peminjam' }}
                 </a>
-
-                <small class="text-light">
-                    Anggota Aktif
-                </small>
             </div>
 
         </div>
 
+        {{-- Menu --}}
         <nav class="mt-2">
 
-            <ul class="nav nav-pills nav-sidebar flex-column">
+            <ul class="nav nav-pills nav-sidebar flex-column"
+                data-widget="treeview"
+                role="menu">
 
-                {{-- Dashboard --}}
                 <li class="nav-item">
                     <a href="{{ route('dashboardpeminjam') }}"
-                        class="nav-link {{ request()->routeIs('dashboardpeminjam') ? 'active' : '' }}">
-
-                        <i class="nav-icon fas fa-home"></i>
+                       class="nav-link {{ request()->routeIs('dashboardpeminjam') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
-
                     </a>
                 </li>
 
-                {{-- Riwayat Peminjaman --}}
                 <li class="nav-item">
-                    <a href="{{ route('riwayatpeminjaman') }}"
-                        class="nav-link {{ request()->routeIs('riwayatpeminjaman') ? 'active' : '' }}">
-
-                        <i class="nav-icon fas fa-book"></i>
-                        <p>Riwayat Peminjaman</p>
-
-                    </a>
-                </li>
-
-                {{-- Riwayat Pengembalian --}}
-                <li class="nav-item">
-                    <a href="{{ route('riwayatpengembalian') }}"
-                        class="nav-link {{ request()->routeIs('riwayatpengembalian') ? 'active' : '' }}">
-
-                        <i class="nav-icon fas fa-undo"></i>
-                        <p>Riwayat Pengembalian</p>
-
-                    </a>
-                </li>
-
-                {{-- Katalog --}}
-                <li class="nav-item">
-                   <a href="{{ route('katalogbuku') }}" class="nav-link">
-
+                    <a href="{{ route('katalogbuku') }}"
+                       class="nav-link {{ request()->routeIs('katalogbuku') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>Katalog Buku</p>
-
                     </a>
                 </li>
 
-                {{-- Logout --}}
-                <li class="nav-item mt-3">
+                <li class="nav-item">
+                    <a href="{{ route('riwayatpeminjaman') }}"
+                       class="nav-link {{ request()->routeIs('riwayatpeminjaman') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>Riwayat Peminjaman</p>
+                    </a>
+                </li>
 
-                    <form action="{{ route('logoutpeminjam') }}" method="POST">
+                <li class="nav-item">
+                    <a href="{{ route('riwayatpengembalian') }}"
+                       class="nav-link {{ request()->routeIs('riwayatpengembalian') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-undo"></i>
+                        <p>Riwayat Pengembalian</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">AKUN</li>
+
+                <li class="nav-item">
+                    <form action="{{ route('logoutpeminjam') }}"
+                          method="POST">
                         @csrf
 
                         <button type="submit"
-                            class="nav-link btn btn-danger text-left w-100 border-0">
+                                class="nav-link border-0 bg-transparent text-left w-100">
 
-                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
                             <p>Logout</p>
 
                         </button>
-
                     </form>
-
                 </li>
 
             </ul>

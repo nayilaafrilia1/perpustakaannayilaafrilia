@@ -1,20 +1,16 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-    {{-- BRAND LOGO --}}
-    <a href="{{ route('dashboardadmin') }}" class="brand-link">
+    {{-- LOGO --}}
+    <a href="{{ route('dashboardadmin') }}" class="brand-link text-center">
 
-        <img src="{{ asset('dist/img/AdminLTELogo.png') }}"
-             alt="Logo"
-             class="brand-image img-circle elevation-3"
-             style="opacity:.8">
+        <i class="fas fa-book-reader fa-lg text-white mr-2"></i>
 
-        <span class="brand-text font-weight-light">
-            Perpustakaan
+        <span class="brand-text font-weight-bold">
+            PERPUSTAKAAN
         </span>
 
     </a>
 
-    {{-- SIDEBAR --}}
     <div class="sidebar">
 
         {{-- USER PANEL --}}
@@ -27,13 +23,16 @@
             </div>
 
             <div class="info">
+
                 <a href="#" class="d-block">
                     {{ auth()->user()->nama ?? 'Administrator' }}
                 </a>
 
                 <small class="text-success">
-                    <i class="fas fa-circle"></i> Online
+                    <i class="fas fa-circle"></i>
+                    Online
                 </small>
+
             </div>
 
         </div>
@@ -48,94 +47,143 @@
 
                 {{-- DASHBOARD --}}
                 <li class="nav-item">
+
                     <a href="{{ route('dashboardadmin') }}"
-                       class="nav-link {{ request()->is('dashboardadmin') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-home"></i>
+                       class="nav-link {{ request()->segment(1) == 'dashboardadmin' ? 'active' : '' }}">
+
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+
                         <p>Dashboard</p>
+
                     </a>
+
                 </li>
 
                 {{-- MASTER DATA --}}
-                <li class="nav-header">MASTER DATA</li>
+                <li class="nav-header">
+                    MASTER DATA
+                </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/user') }}"
-                       class="nav-link {{ request()->is('user*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'user' ? 'active' : '' }}">
+
                         <i class="nav-icon fas fa-users"></i>
+
                         <p>Data User</p>
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/peminjam') }}"
-                       class="nav-link {{ request()->is('peminjam*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'peminjam' ? 'active' : '' }}">
+
                         <i class="nav-icon fas fa-user-graduate"></i>
+
                         <p>Data Peminjam</p>
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/kategori') }}"
-                       class="nav-link {{ request()->is('kategori*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'kategori' ? 'active' : '' }}">
+
                         <i class="nav-icon fas fa-layer-group"></i>
+
                         <p>Kategori Buku</p>
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/buku') }}"
-                       class="nav-link {{ request()->is('buku*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'buku' ? 'active' : '' }}">
+
                         <i class="nav-icon fas fa-book"></i>
+
                         <p>Data Buku</p>
+
                     </a>
+
                 </li>
 
                 {{-- TRANSAKSI --}}
-                <li class="nav-header">TRANSAKSI</li>
+                <li class="nav-header">
+                    TRANSAKSI
+                </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/peminjaman') }}"
-                       class="nav-link {{ request()->is('peminjaman*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'peminjaman' ? 'active' : '' }}">
+
                         <i class="nav-icon fas fa-book-reader"></i>
+
                         <p>Peminjaman</p>
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/pengembalian') }}"
-                       class="nav-link {{ request()->is('pengembalian*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-undo"></i>
+                       class="nav-link {{ request()->segment(1) == 'pengembalian' ? 'active' : '' }}">
+
+                        <i class="nav-icon fas fa-undo-alt"></i>
+
                         <p>Pengembalian</p>
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/denda') }}"
-                       class="nav-link {{ request()->is('denda*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'denda' ? 'active' : '' }}">
+
                         <i class="nav-icon fas fa-money-bill-wave"></i>
+
                         <p>Denda</p>
+
                     </a>
+
                 </li>
 
                 <li class="nav-item">
+
                     <a href="{{ url('/surat') }}"
-                       class="nav-link {{ request()->is('surat*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'surat' ? 'active' : '' }}">
+
                         <i class="nav-icon fas fa-file-signature"></i>
+
                         <p>Surat Bebas Perpus</p>
+
                     </a>
+
                 </li>
 
                 {{-- LAPORAN --}}
-                <li class="nav-header">LAPORAN</li>
+                <li class="nav-header">
+                    LAPORAN
+                </li>
 
-                <li class="nav-item has-treeview
-                    {{ request()->is('laporan/*') ? 'menu-open' : '' }}">
+                <li class="nav-item has-treeview {{ request()->segment(1) == 'laporan' ? 'menu-open' : '' }}">
 
                     <a href="#"
-                       class="nav-link
-                       {{ request()->is('laporan/*') ? 'active' : '' }}">
+                       class="nav-link {{ request()->segment(1) == 'laporan' ? 'active' : '' }}">
 
-                        <i class="nav-icon fas fa-file-alt"></i>
+                        <i class="nav-icon fas fa-chart-bar"></i>
 
                         <p>
                             Laporan
@@ -147,48 +195,69 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
+
                             <a href="{{ url('/laporan/peminjaman') }}"
-                               class="nav-link {{ request()->is('laporan/peminjaman*') ? 'active' : '' }}">
+                               class="nav-link {{ request()->segment(2) == 'peminjaman' ? 'active' : '' }}">
+
                                 <i class="far fa-circle nav-icon"></i>
+
                                 <p>Laporan Peminjaman</p>
+
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a href="{{ url('/laporan/pengembalian') }}"
-                               class="nav-link {{ request()->is('laporan/pengembalian*') ? 'active' : '' }}">
+                               class="nav-link {{ request()->segment(2) == 'pengembalian' ? 'active' : '' }}">
+
                                 <i class="far fa-circle nav-icon"></i>
+
                                 <p>Laporan Pengembalian</p>
+
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a href="{{ url('/laporan/denda') }}"
-                               class="nav-link {{ request()->is('laporan/denda*') ? 'active' : '' }}">
+                               class="nav-link {{ request()->segment(2) == 'denda' ? 'active' : '' }}">
+
                                 <i class="far fa-circle nav-icon"></i>
+
                                 <p>Laporan Denda</p>
+
                             </a>
+
                         </li>
 
                         <li class="nav-item">
+
                             <a href="{{ url('/laporan/buku') }}"
-                               class="nav-link {{ request()->is('laporan/buku*') ? 'active' : '' }}">
+                               class="nav-link {{ request()->segment(2) == 'buku' ? 'active' : '' }}">
+
                                 <i class="far fa-circle nav-icon"></i>
+
                                 <p>Laporan Buku</p>
+
                             </a>
+
                         </li>
 
                     </ul>
 
                 </li>
 
-                {{-- LOGOUT --}}
-                <li class="nav-header">AKUN</li>
+                {{-- AKUN --}}
+                <li class="nav-header">
+                    AKUN
+                </li>
 
                 <li class="nav-item">
 
-                    <form action="{{ route('logoutuser') }}"
-                          method="POST">
+                    <form action="{{ route('logoutuser') }}" method="POST">
 
                         @csrf
 
@@ -197,9 +266,7 @@
 
                             <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
 
-                            <p>
-                                Logout
-                            </p>
+                            <p>Logout</p>
 
                         </button>
 

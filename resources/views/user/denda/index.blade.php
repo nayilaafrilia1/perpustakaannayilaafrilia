@@ -6,141 +6,145 @@
 
 <div class="card card-danger card-outline">
 
-<div class="card-header">
+    <div class="card-header">
 
-    <h3 class="card-title">
+        <h3 class="card-title">
 
-        Data Denda Peminjam
+            Data Denda Peminjam
 
-    </h3>
+        </h3>
 
-</div>
+    </div>
 
-<div class="card-body">
+    <div class="card-body">
 
-    <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped">
 
-        <thead>
+            <thead>
 
-            <tr>
+                <tr>
 
-                <th width="50">No</th>
+                    <th width="50">No</th>
 
-                <th>Nama Peminjam</th>
+                    <th>Nama Peminjam</th>
 
-                <th>Buku</th>
+                    <th>Buku</th>
 
-                <th>Hari Telat</th>
+                    <th>Hari Telat</th>
 
-                <th>Total Denda</th>
+                    <th>Total Denda</th>
 
-                <th>Status Bayar</th>
+                    <th>Status Bayar</th>
 
-                <th width="180">Aksi</th>
+                    <th width="180">Aksi</th>
 
-            </tr>
+                </tr>
 
-        </thead>
+            </thead>
 
-        <tbody>
+            <tbody>
 
-            @forelse($dendas as $item)
+                @forelse($dendas as $item)
 
-            <tr>
+                <tr>
 
-                <td>{{ $loop->iteration }}</td>
+                    <td>{{ $loop->iteration }}</td>
 
-                <td>
-                    {{ $item->peminjaman->peminjam->namapeminjam }}
-                </td>
+                    <td>
+                        {{ $item->peminjam->namapeminjam }}
+                    </td>
 
-                <td>
-                    {{ $item->buku->judul }}
-                </td>
+                    <td>
 
-                <td>
+                        @foreach($item->detailPeminjaman as $detail)
 
-                    <span class="badge badge-danger">
+                        @if($detail->denda > 0)
 
-                        {{ $item->jumlahharitelat }}
+                        <span class="badge badge-info mb-1">
+                            {{ $detail->buku->judul }}
+                        </span>
+                        <br>
+
+                        @endif
+
+                        @endforeach
+
+                    </td>
+
+                    <td>
+
+                        {{ $item->detailPeminjaman->sum('jumlahharitelat') }}
                         Hari
 
-                    </span>
+                    </td>
 
-                </td>
+                    <td>
 
-                <td>
+                        Rp
+                        {{ number_format($item->detailPeminjaman->sum('denda'),0,',','.') }}
 
-                    Rp
-                    {{ number_format($item->denda,0,',','.') }}
+                    </td>
 
-                </td>
+                    <td>
 
-                <td>
+                        @if($item->statusbayar=='sudahbayar')
 
-                    @if($item->peminjaman->statusbayar=='sudahbayar')
+                        <span class="badge badge-success">
+                            Lunas
+                        </span>
 
-                    <span class="badge badge-success">
+                        @else
 
-                        Lunas
+                        <span class="badge badge-warning">
+                            Belum Bayar
+                        </span>
 
-                    </span>
+                        @endif
 
-                    @else
+                    </td>
 
-                    <span class="badge badge-warning">
+                    <td>
 
-                        Belum Bayar
+                        <a href="{{ route('denda.show',$item->id) }}"
+                            class="btn btn-info btn-sm">
 
-                    </span>
+                            Detail
 
-                    @endif
+                        </a>
 
-                </td>
+                        @if($item->statusbayar!='sudahbayar')
 
-                <td>
+                        <a href="{{ route('denda.edit',$item->id) }}"
+                            class="btn btn-success btn-sm">
 
-                    <a href="{{ route('denda.show',$item->id) }}"
-                        class="btn btn-info btn-sm">
+                            Bayar
 
-                        Detail
+                        </a>
 
-                    </a>
+                        @endif
 
-                    @if($item->peminjaman->statusbayar!='sudahbayar')
+                    </td>
 
-                    <a href="{{ route('denda.edit',$item->id) }}"
-                        class="btn btn-success btn-sm">
+                </tr>
 
-                        Bayar
+                @empty
+                <tr>
 
-                    </a>
+                    <td colspan="7" class="text-center">
 
-                    @endif
+                        Tidak ada data denda
 
-                </td>
+                    </td>
 
-            </tr>
+                </tr>
 
-            @empty
+                @endforelse
 
-            <tr>
+            </tbody>
 
-                <td colspan="7" class="text-center">
+        </table>
 
-                    Tidak ada data denda
-
-                </td>
-
-            </tr>
-
-            @endforelse
-
-        </tbody>
-
-    </table>
-
-</div>
+    </div>
 
 </div>
 

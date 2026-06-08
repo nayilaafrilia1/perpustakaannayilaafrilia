@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,59 +14,80 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+
+        body{
+            font-family:'Poppins',sans-serif;
         }
 
-        .main-sidebar {
-            background: linear-gradient(180deg, #198754, #157347);
+        /* Sidebar */
+        .brand-text{
+            font-weight:600;
         }
 
-        .brand-link {
-            background: rgba(255,255,255,0.08);
+        .nav-sidebar .nav-link{
+            border-radius:8px;
+            margin-bottom:4px;
+            transition:.3s;
         }
 
-        .brand-text {
-            color: white !important;
-            font-weight: 600;
+        .nav-sidebar .nav-link:hover{
+            transform:translateX(3px);
         }
 
-        .nav-sidebar .nav-link {
-            color: #ffffff;
-            border-radius: 10px;
-            margin-bottom: 5px;
+        .nav-sidebar .nav-link.active{
+            border-radius:8px;
         }
 
-        .nav-sidebar .nav-link:hover {
-            background: rgba(255,255,255,0.1);
+        /* Content */
+        .content-wrapper{
+            background:#f4f6f9;
+            min-height:100vh;
         }
 
-        .nav-sidebar .nav-link.active {
-            background: white;
-            color: #198754 !important;
-            font-weight: 600;
+        /* Card */
+        .card{
+            border:none;
+            border-radius:15px;
+            box-shadow:0 4px 15px rgba(0,0,0,.05);
         }
 
-        .content-wrapper {
-            background: #f4f6f9;
+        .card-header{
+            background:white;
+            border-bottom:1px solid #eee;
         }
 
-        .card {
-            border-radius: 15px;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        /* Small Box */
+        .small-box{
+            border-radius:15px;
+            overflow:hidden;
         }
 
-        .welcome-box {
-            background: linear-gradient(135deg, #198754, #20c997);
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
+        .small-box .icon{
+            top:10px;
         }
+
+        /* Button */
+        .btn{
+            border-radius:10px;
+        }
+
+        /* Table */
+        .table th{
+            background:#f8f9fa;
+            border-top:none;
+        }
+
+        /* Alert */
+        .alert{
+            border-radius:10px;
+        }
+
     </style>
 
     @stack('style')
+
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
 
 <div class="wrapper">
@@ -79,44 +101,52 @@
     {{-- Content --}}
     <div class="content-wrapper">
 
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="welcome-box mb-4">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <section class="content pt-3">
 
-                        <div>
-                            <h3 class="font-weight-bold mb-2">
-                                Selamat Datang,
-                                {{ auth('peminjam')->user()->nama ?? 'Peminjam' }}
-                            </h3>
-
-                            <p class="mb-0">
-                                Sistem Perpustakaan Digital Sekolah
-                            </p>
-                        </div>
-
-                        <div>
-                            <i class="fas fa-book-reader fa-4x opacity-50"></i>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section class="content">
             <div class="container-fluid">
 
+                {{-- Flash Message --}}
                 @if(session('success'))
+
                     <div class="alert alert-success alert-dismissible fade show">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+                        <button type="button"
+                                class="close"
+                                data-dismiss="alert">
+
+                            <span>&times;</span>
+
+                        </button>
+
                         {{ session('success') }}
+
                     </div>
+
                 @endif
 
+                @if(session('error'))
+
+                    <div class="alert alert-danger alert-dismissible fade show">
+
+                        <button type="button"
+                                class="close"
+                                data-dismiss="alert">
+
+                            <span>&times;</span>
+
+                        </button>
+
+                        {{ session('error') }}
+
+                    </div>
+
+                @endif
+
+                {{-- Isi Halaman --}}
                 @yield('content')
 
             </div>
+
         </section>
 
     </div>
@@ -126,6 +156,7 @@
 
 </div>
 
+{{-- Script --}}
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>

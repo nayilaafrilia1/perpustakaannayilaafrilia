@@ -1,101 +1,220 @@
 @extends('layouts.apppeminjam')
 
-@section('title', 'Detail Buku')
+@section('title','Detail Buku')
 
 @section('content')
 
-<div class="card card-success card-outline">
+<div class="content-header">
 
-    <div class="card-header">
-        <h3 class="card-title">Detail Buku</h3>
+    <div class="container-fluid">
+
+        <a href="{{ url()->previous() }}"
+           class="btn btn-secondary mb-3">
+
+            <i class="fas fa-arrow-left"></i>
+            Kembali
+
+        </a>
+
     </div>
 
-    <div class="card-body">
+</div>
 
-        <div class="row">
+<section class="content">
 
-            {{-- COVER --}}
-            <div class="col-md-4 text-center">
+<div class="container-fluid">
 
-                <img src="{{ $data->foto 
-                            ? asset('cover/buku/'.$data->foto) 
-                            : asset('dist/img/default-150x150.png') }}"
-                     class="img-fluid rounded shadow"
-                     style="max-height:350px; object-fit:cover;">
+    <div class="card border-0 shadow-lg">
 
-            </div>
+        <div class="card-body">
 
-            {{-- DETAIL --}}
-            <div class="col-md-8">
+            <div class="row">
 
-                <h3 class="font-weight-bold">{{ $data->judul }}</h3>
+                {{-- COVER --}}
+                <div class="col-lg-4 text-center">
 
-                <hr>
+                    @php
+                        $gambar = public_path('cover/buku/'.$buku->foto);
+                    @endphp
 
-                <table class="table table-borderless">
+                    @if(!empty($buku->foto) && file_exists($gambar))
 
-                    <tr>
-                        <th width="150">Kategori</th>
-                        <td>{{ $data->kategori->namakategori ?? '-' }}</td>
-                    </tr>
+                        <img
+                            src="{{ asset('cover/buku/'.$buku->foto) }}"
+                            class="img-fluid shadow rounded"
+                            style="height:500px;object-fit:cover;">
 
-                    <tr>
-                        <th>Pengarang</th>
-                        <td>{{ $data->pengarang }}</td>
-                    </tr>
+                    @else
 
-                    <tr>
-                        <th>Penerbit</th>
-                        <td>{{ $data->penerbit }}</td>
-                    </tr>
+                        <img
+                            src="{{ asset('dist/img/no-image.png') }}"
+                            class="img-fluid shadow rounded"
+                            style="height:500px;object-fit:cover;">
 
-                    <tr>
-                        <th>Tahun Terbit</th>
-                        <td>{{ $data->tahunterbit ?? '-' }}</td>
-                    </tr>
+                    @endif
 
-                    <tr>
-                        <th>ISBN</th>
-                        <td>{{ $data->isbn ?? '-' }}</td>
-                    </tr>
+                </div>
 
-                    <tr>
-                        <th>Rak</th>
-                        <td>{{ $data->rak }}</td>
-                    </tr>
+                {{-- DETAIL --}}
+                <div class="col-lg-8">
 
-                    <tr>
-                        <th>Stok</th>
-                        <td>
-                            <span class="badge badge-info">
-                                {{ $data->stok }}
-                            </span>
-                        </td>
-                    </tr>
+                    <span class="badge badge-primary mb-2">
 
-                    <tr>
-                        <th>Status</th>
-                        <td>
-                            @if($data->status == 'tersedia')
-                                <span class="badge badge-success">Tersedia</span>
-                            @elseif($data->status == 'dipinjam')
-                                <span class="badge badge-warning">Dipinjam</span>
-                            @else
-                                <span class="badge badge-danger">{{ $data->status }}</span>
-                            @endif
-                        </td>
-                    </tr>
+                        {{ $buku->kategori->namakategori ?? 'Umum' }}
 
-                    <tr>
-                        <th>Deskripsi</th>
-                        <td>{{ $data->deskripsi ?? '-' }}</td>
-                    </tr>
+                    </span>
 
-                </table>
+                    <h2 class="font-weight-bold">
 
-                <a href="{{ route('katalogbuku') }}" class="btn btn-secondary">
-                    Kembali
-                </a>
+                        {{ $buku->judul }}
+
+                    </h2>
+
+                    <hr>
+
+                    <table class="table table-borderless">
+
+                        <tr>
+                            <th width="200">Nomor Seri</th>
+                            <td>: {{ $buku->nomorseri }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>ISBN</th>
+                            <td>: {{ $buku->isbn }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Pengarang</th>
+                            <td>: {{ $buku->pengarang }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Penerbit</th>
+                            <td>: {{ $buku->penerbit }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Tahun Terbit</th>
+                            <td>: {{ $buku->tahunterbit }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Tahun Pengadaan</th>
+                            <td>: {{ $buku->tahunpengadaan }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Rak Buku</th>
+                            <td>: {{ $buku->rak }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Kondisi</th>
+                            <td>
+
+                                @if($buku->kondisi == 'bagus')
+
+                                    <span class="badge badge-success">
+                                        Bagus
+                                    </span>
+
+                                @else
+
+                                    <span class="badge badge-warning">
+                                        {{ ucfirst($buku->kondisi) }}
+                                    </span>
+
+                                @endif
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td>
+
+                                @if($buku->stok > 0)
+
+                                    <span class="badge badge-success">
+                                        Tersedia
+                                    </span>
+
+                                @else
+
+                                    <span class="badge badge-danger">
+                                        Habis
+                                    </span>
+
+                                @endif
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Stok</th>
+                            <td>
+
+                                <span class="badge badge-info">
+                                    {{ $buku->stok }} Buku
+                                </span>
+
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <div class="mt-4">
+
+                        <h5 class="font-weight-bold">
+                            Deskripsi Buku
+                        </h5>
+
+                        <div class="alert alert-light border">
+
+                            {{ $buku->deskripsi }}
+
+                        </div>
+
+                    </div>
+
+                    {{-- BUTTON --}}
+                    <div class="mt-4">
+
+                        @if($buku->stok > 0)
+
+                        <form action="{{ route('pinjambuku',$buku->id) }}"
+                              method="POST">
+
+                            @csrf
+
+                            <button
+                                type="submit"
+                                class="btn btn-success btn-lg rounded-pill">
+
+                                <i class="fas fa-book-reader"></i>
+                                Pinjam Buku
+
+                            </button>
+
+                        </form>
+
+                        @else
+
+                        <button
+                            class="btn btn-danger btn-lg rounded-pill"
+                            disabled>
+
+                            Buku Sedang Tidak Tersedia
+
+                        </button>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
@@ -104,4 +223,26 @@
 
 </div>
 
+</section>
+
 @endsection
+
+@push('css')
+
+<style>
+
+.table-borderless th{
+    color:#555;
+}
+
+.card{
+    border-radius:20px;
+}
+
+img{
+    border-radius:15px;
+}
+
+</style>
+
+@endpush

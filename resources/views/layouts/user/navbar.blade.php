@@ -1,146 +1,135 @@
-<nav class="main-header navbar navbar-expand navbar-white navbar-light shadow-sm border-0">
+<nav class="main-header navbar navbar-expand navbar-white navbar-light shadow-sm">
 
-    {{-- Left navbar links --}}
+    {{-- LEFT --}}
     <ul class="navbar-nav">
 
         <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+
+            <a class="nav-link"
+               data-widget="pushmenu"
+               href="#"
+               role="button">
+
                 <i class="fas fa-bars"></i>
+
             </a>
+
         </li>
 
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link font-weight-bold text-primary">
-                <i class="fas fa-book-reader mr-1"></i>
-                Sistem Perpustakaan Digital
-            </a>
+        <li class="nav-item d-none d-md-inline-block">
+
+            <span class="nav-link font-weight-bold text-primary">
+
+                <i class="fas fa-book-reader mr-2"></i>
+
+                Perpustakaan Digital
+
+            </span>
+
         </li>
 
     </ul>
 
-    {{-- Right Navbar --}}
+    {{-- RIGHT --}}
     <ul class="navbar-nav ml-auto align-items-center">
 
-        {{-- Search --}}
-        <li class="nav-item d-none d-md-block mr-3">
+        {{-- JAM --}}
+        <li class="nav-item mr-3 d-none d-md-block">
 
-            <form action="#" method="GET">
+            <span class="nav-link">
 
-                <div class="input-group input-group-sm">
+                <i class="far fa-clock text-primary"></i>
 
-                    <input type="text"
-                           class="form-control"
-                           placeholder="Cari data...">
+                <span id="jam-sekarang"></span>
 
-                    <div class="input-group-append">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-
-                </div>
-
-            </form>
+            </span>
 
         </li>
 
-        {{-- Notification --}}
-        <li class="nav-item dropdown mr-2">
+        {{-- FULLSCREEN --}}
+        <li class="nav-item">
 
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-bell"></i>
-                <span class="badge badge-danger navbar-badge">3</span>
-            </a>
+            <a class="nav-link"
+               data-widget="fullscreen"
+               href="#">
 
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right border-0 shadow">
-
-                <span class="dropdown-header font-weight-bold">
-                    Notifikasi Sistem
-                </span>
-
-                <div class="dropdown-divider"></div>
-
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-book text-primary mr-2"></i>
-                    Ada peminjaman baru
-                </a>
-
-                <div class="dropdown-divider"></div>
-
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-user text-success mr-2"></i>
-                    Anggota baru terdaftar
-                </a>
-
-                <div class="dropdown-divider"></div>
-
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-exclamation-circle text-danger mr-2"></i>
-                    Ada denda belum dibayar
-                </a>
-
-            </div>
-
-        </li>
-
-        {{-- Fullscreen --}}
-        <li class="nav-item mr-2">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>
+
             </a>
+
         </li>
 
-        {{-- User Dropdown --}}
+        {{-- USER --}}
         <li class="nav-item dropdown user-menu">
 
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            <a href="#"
+               class="nav-link dropdown-toggle"
+               data-toggle="dropdown">
 
                 <img src="{{ asset('dist/img/avatar5.png') }}"
                      class="user-image img-circle elevation-2"
-                     alt="User Image">
+                     alt="User">
 
-                <span class="d-none d-md-inline font-weight-bold">
-                    {{ auth()->user()->nama ?? 'User' }}
+                <span class="d-none d-md-inline">
+
+                    {{ auth()->user()->nama ?? 'Administrator' }}
+
                 </span>
 
             </a>
 
-            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right border-0 shadow">
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow border-0">
 
-                {{-- User Header --}}
-                <li class="user-header bg-primary">
+                <div class="text-center p-3 bg-primary text-white">
 
                     <img src="{{ asset('dist/img/avatar5.png') }}"
-                         class="img-circle elevation-2"
-                         alt="User Image">
+                         class="img-circle elevation-2 mb-2"
+                         width="80">
 
-                    <p>
-                        {{ auth()->user()->nama ?? 'User' }}
-                        <small>
-                            {{ ucfirst(auth()->user()->role ?? 'Admin') }}
-                        </small>
-                    </p>
+                    <h6 class="mb-0">
+                        {{ auth()->user()->nama ?? 'Administrator' }}
+                    </h6>
 
-                </li>
+                    <small>
+                        {{ ucfirst(auth()->user()->role ?? 'Admin') }}
+                    </small>
 
-                {{-- Footer --}}
-                <li class="user-footer d-flex justify-content-between">
+                </div>
 
-                    <a href="#" class="btn btn-default btn-flat">
-                        <i class="fas fa-user mr-1"></i>
-                        Profil
-                    </a>
-<a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-    Logout
-</a>
+                <div class="dropdown-divider"></div>
 
-<form id="logout-form" action="{{ route('logoutuser') }}" method="POST" style="display:none;">
-    @csrf
-</form>
+                <a href="#"
+                   class="dropdown-item">
 
-                </li>
+                    <i class="fas fa-user mr-2"></i>
 
-            </ul>
+                    Profil Saya
+
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <a href="#"
+                   class="dropdown-item text-danger"
+                   onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+
+                    Logout
+
+                </a>
+
+                <form id="logout-form"
+                      action="{{ route('logoutuser') }}"
+                      method="POST"
+                      style="display:none;">
+
+                    @csrf
+
+                </form>
+
+            </div>
 
         </li>
 

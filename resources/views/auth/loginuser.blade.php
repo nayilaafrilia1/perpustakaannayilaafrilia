@@ -1,84 +1,101 @@
 @extends('layouts.apptamu')
 
-@section('title', 'Login User')
+@section('title', 'Login Admin & Petugas')
 
 @section('content')
 
-<div class="login-page bg-light"
+<div class="login-page"
      style="
         min-height:100vh;
-        background:
-        linear-gradient(
-            rgba(13,71,161,0.85),
-            rgba(21,101,192,0.85)
-        ),
-        url('{{ asset('dist/img/photo1.png') }}');
-        background-size: cover;
-        background-position:center;
-    ">
+        background:linear-gradient(135deg,#fff7ed,#fed7aa);
+     ">
 
-    <div class="login-box" style="width:420px;">
+    <div class="login-box" style="width:450px;">
 
-        <div class="card border-0 shadow-lg"
-             style="border-radius:20px; overflow:hidden;">
+        <div class="card login-card shadow-lg border-0">
 
-            <div class="card-body login-card-body p-5">
+            {{-- Header --}}
+            <div class="login-header">
 
-                {{-- LOGO --}}
-                <div class="text-center mb-4">
-
-                    <div class="mb-3">
-
-                        <div class="bg-primary rounded-circle shadow d-inline-flex justify-content-center align-items-center"
-                             style="width:90px;height:90px;">
-
-                            <i class="fas fa-book-reader text-white fa-3x"></i>
-
-                        </div>
-
-                    </div>
-
-                    <h3 class="font-weight-bold text-primary">
-                        Perpustakaan Digital
-                    </h3>
-
-                    <p class="text-muted">
-                        Login Admin / Petugas
-                    </p>
-
+                <div class="logo-circle">
+                    <i class="fas fa-user-shield"></i>
                 </div>
 
-                {{-- ALERT --}}
+                <h2 class="mt-3 mb-1 font-weight-bold text-white">
+                    Perpustakaan Digital
+                </h2>
+
+                <p class="text-white mb-0">
+                    Login Admin & Petugas
+                </p>
+
+            </div>
+
+            {{-- Body --}}
+            <div class="card-body login-card-body">
+
                 @if(session('gagal'))
-
                     <div class="alert alert-danger">
-
                         {{ session('gagal') }}
-
                     </div>
-
                 @endif
 
-                {{-- FORM --}}
                 <form action="{{ route('prosesloginuser') }}"
                       method="POST">
 
                     @csrf
 
-                    {{-- USERNAME --}}
-                    <div class="input-group mb-4">
+                    <div class="form-group">
 
-                        <input type="text"
-                               name="username"
-                               class="form-control rounded-left"
-                               placeholder="Masukkan Username"
-                               required>
+                        <label>Username</label>
 
-                        <div class="input-group-append">
+                        <div class="input-group">
 
-                            <div class="input-group-text bg-primary text-white rounded-right">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
 
-                                <span class="fas fa-user"></span>
+                            <input type="text"
+                                   name="username"
+                                   class="form-control"
+                                   placeholder="Masukkan Username"
+                                   required>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Password</label>
+
+                        <div class="input-group">
+
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
+
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   class="form-control"
+                                   placeholder="Masukkan Password"
+                                   required>
+
+                            <div class="input-group-append">
+
+                                <span class="input-group-text"
+                                      onclick="togglePassword()"
+                                      style="cursor:pointer">
+
+                                    <i id="eye"
+                                       class="fas fa-eye"></i>
+
+                                </span>
 
                             </div>
 
@@ -86,34 +103,11 @@
 
                     </div>
 
-                    {{-- PASSWORD --}}
-                    <div class="input-group mb-4">
-
-                        <input type="password"
-                               name="password"
-                               class="form-control rounded-left"
-                               placeholder="Masukkan Password"
-                               required>
-
-                        <div class="input-group-append">
-
-                            <div class="input-group-text bg-primary text-white rounded-right">
-
-                                <span class="fas fa-lock"></span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    {{-- BUTTON --}}
                     <button type="submit"
-                            class="btn btn-primary btn-block rounded-pill py-2 shadow-sm">
+                            class="btn btn-login btn-block">
 
                         <i class="fas fa-sign-in-alt mr-2"></i>
-
-                        Login Sekarang
+                        Login
 
                     </button>
 
@@ -124,10 +118,9 @@
                 <div class="text-center">
 
                     <a href="{{ url('/') }}"
-                       class="text-primary">
+                       class="btn btn-outline-secondary">
 
                         <i class="fas fa-arrow-left mr-1"></i>
-
                         Kembali ke Beranda
 
                     </a>
@@ -138,8 +131,115 @@
 
         </div>
 
+        <div class="text-center mt-3">
+
+            <small class="text-muted">
+                © {{ date('Y') }} Perpustakaan Digital
+            </small>
+
+        </div>
+
     </div>
 
 </div>
+
+<style>
+
+.login-card{
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.login-header{
+    background:linear-gradient(
+        135deg,
+        #f97316,
+        #ea580c
+    );
+    padding:35px 25px;
+    text-align:center;
+}
+
+.logo-circle{
+    width:95px;
+    height:95px;
+    margin:auto;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.15);
+
+    border:3px solid rgba(255,255,255,.3);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo-circle i{
+    color:white;
+    font-size:40px;
+}
+
+.login-card-body{
+    padding:35px;
+}
+
+.form-control{
+    height:48px;
+    border-radius:10px;
+}
+
+.input-group-text{
+    background:#fff7ed;
+    color:#ea580c;
+    border:none;
+}
+
+.btn-login{
+    background:linear-gradient(
+        135deg,
+        #f97316,
+        #ea580c
+    );
+    border:none;
+    color:white;
+    padding:12px;
+    border-radius:12px;
+    font-weight:600;
+}
+
+.btn-login:hover{
+    color:white;
+}
+
+.card{
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+</style>
+
+<script>
+function togglePassword()
+{
+    let password = document.getElementById('password');
+    let eye = document.getElementById('eye');
+
+    if(password.type === 'password')
+    {
+        password.type = 'text';
+        eye.classList.replace('fa-eye','fa-eye-slash');
+    }
+    else
+    {
+        password.type = 'password';
+        eye.classList.replace('fa-eye-slash','fa-eye');
+    }
+}
+</script>
 
 @endsection

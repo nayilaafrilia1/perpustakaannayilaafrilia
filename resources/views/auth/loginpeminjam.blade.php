@@ -4,57 +4,40 @@
 
 @section('content')
 
-<div class="login-page bg-light"
+<div class="login-page"
      style="
         min-height:100vh;
-        background:
-        linear-gradient(
-            rgba(25,135,84,0.85),
-            rgba(20,100,60,0.85)
-        ),
-        url('{{ asset('dist/img/photo2.png') }}');
-        background-size: cover;
-        background-position:center;
-    ">
+        background:linear-gradient(135deg,#eef2ff,#dbeafe);
+     ">
 
-    <div class="login-box" style="width:420px;">
+    <div class="login-box" style="width:450px;">
 
-        <div class="card border-0 shadow-lg"
-             style="border-radius:20px; overflow:hidden;">
+        <div class="card login-card shadow-lg border-0">
 
-            <div class="card-body login-card-body p-5">
+            {{-- Header --}}
+            <div class="login-header">
 
-                <div class="text-center mb-4">
-
-                    <div class="mb-3">
-
-                        <div class="bg-success rounded-circle shadow d-inline-flex justify-content-center align-items-center"
-                             style="width:90px;height:90px;">
-
-                            <i class="fas fa-user-graduate text-white fa-3x"></i>
-
-                        </div>
-
-                    </div>
-
-                    <h3 class="font-weight-bold text-success">
-                        Login Peminjam
-                    </h3>
-
-                    <p class="text-muted">
-                        Perpustakaan Digital Sekolah
-                    </p>
-
+                <div class="logo-circle">
+                    <i class="fas fa-book-reader"></i>
                 </div>
 
+                <h2 class="mt-3 mb-1 font-weight-bold text-white">
+                    Perpustakaan Digital
+                </h2>
+
+                <p class="text-white mb-0">
+                    Login Peminjam
+                </p>
+
+            </div>
+
+            {{-- Body --}}
+            <div class="card-body login-card-body">
+
                 @if(session('gagal'))
-
                     <div class="alert alert-danger">
-
                         {{ session('gagal') }}
-
                     </div>
-
                 @endif
 
                 <form action="{{ route('prosesloginpeminjam') }}"
@@ -62,39 +45,57 @@
 
                     @csrf
 
-                    <div class="input-group mb-4">
+                    <div class="form-group">
 
-                        <input type="text"
-                               name="username"
-                               class="form-control"
-                               placeholder="Masukkan Username"
-                               required>
+                        <label>Username</label>
 
-                        <div class="input-group-append">
+                        <div class="input-group">
 
-                            <div class="input-group-text bg-success text-white">
-
-                                <span class="fas fa-user"></span>
-
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
                             </div>
+
+                            <input type="text"
+                                   name="username"
+                                   class="form-control"
+                                   placeholder="Masukkan Username"
+                                   required>
 
                         </div>
 
                     </div>
 
-                    <div class="input-group mb-4">
+                    <div class="form-group">
 
-                        <input type="password"
-                               name="password"
-                               class="form-control"
-                               placeholder="Masukkan Password"
-                               required>
+                        <label>Password</label>
 
-                        <div class="input-group-append">
+                        <div class="input-group">
 
-                            <div class="input-group-text bg-success text-white">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
 
-                                <span class="fas fa-lock"></span>
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   class="form-control"
+                                   placeholder="Masukkan Password"
+                                   required>
+
+                            <div class="input-group-append">
+
+                                <span class="input-group-text"
+                                      onclick="togglePassword()"
+                                      style="cursor:pointer">
+
+                                    <i id="eye"
+                                       class="fas fa-eye"></i>
+
+                                </span>
 
                             </div>
 
@@ -103,11 +104,10 @@
                     </div>
 
                     <button type="submit"
-                            class="btn btn-success btn-block rounded-pill py-2 shadow">
+                            class="btn btn-primary btn-block">
 
                         <i class="fas fa-sign-in-alt mr-2"></i>
-
-                        Login Peminjam
+                        Login
 
                     </button>
 
@@ -117,15 +117,14 @@
 
                 <div class="text-center">
 
-                    <p class="mb-2">
-                        Belum punya akun?
+                    <p class="text-muted mb-2">
+                        Belum memiliki akun?
                     </p>
 
                     <a href="{{ route('registerpeminjam') }}"
-                       class="btn btn-outline-success rounded-pill px-4">
+                       class="btn btn-outline-primary">
 
                         <i class="fas fa-user-plus mr-1"></i>
-
                         Register
 
                     </a>
@@ -136,8 +135,119 @@
 
         </div>
 
+        <div class="text-center mt-3">
+            <small class="text-muted">
+                © {{ date('Y') }} Perpustakaan Digital
+            </small>
+        </div>
+
     </div>
 
 </div>
+
+<style>
+
+.login-card{
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.login-header{
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #2563eb
+    );
+    padding:35px 25px;
+    text-align:center;
+}
+
+.logo-circle{
+    width:95px;
+    height:95px;
+    margin:auto;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.15);
+
+    border:3px solid rgba(255,255,255,.3);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logo-circle i{
+    color:white;
+    font-size:40px;
+}
+
+.login-card-body{
+    padding:35px;
+}
+
+.form-control{
+    border-radius:10px;
+    height:48px;
+}
+
+.input-group-text{
+    background:#eef2ff;
+    color:#4f46e5;
+    border:none;
+}
+
+.btn-primary{
+    border:none;
+    border-radius:12px;
+    padding:12px;
+
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #2563eb
+    );
+}
+
+.btn-outline-primary{
+    border-radius:10px;
+}
+
+.card{
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+</style>
+
+<script>
+function togglePassword()
+{
+    let password =
+        document.getElementById('password');
+
+    let eye =
+        document.getElementById('eye');
+
+    if(password.type === 'password')
+    {
+        password.type = 'text';
+
+        eye.classList.remove('fa-eye');
+        eye.classList.add('fa-eye-slash');
+    }
+    else
+    {
+        password.type = 'password';
+
+        eye.classList.remove('fa-eye-slash');
+        eye.classList.add('fa-eye');
+    }
+}
+</script>
 
 @endsection

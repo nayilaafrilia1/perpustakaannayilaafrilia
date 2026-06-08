@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\DetailPeminjaman;
+use App\Models\Peminjaman;
 
 class ControllerDenda extends Controller
 {
@@ -14,11 +14,13 @@ class ControllerDenda extends Controller
      */
     public function index()
     {
-        $dendas = DetailPeminjaman::with([
-            'buku',
-            'peminjaman',
-            'peminjaman.peminjam'
+        $dendas = Peminjaman::with([
+            'peminjam',
+            'detailPeminjaman.buku'
         ])
+        ->whereHas('detailPeminjaman', function ($q) {
+            $q->where('denda', '>', 0);
+        })
         ->latest()
         ->get();
 
@@ -33,10 +35,9 @@ class ControllerDenda extends Controller
      */
     public function show(string $id)
     {
-        $denda = DetailPeminjaman::with([
-            'buku',
-            'peminjaman',
-            'peminjaman.peminjam'
+        $denda = Peminjaman::with([
+            'peminjam',
+            'detailPeminjaman.buku'
         ])->findOrFail($id);
 
         return view(
@@ -50,10 +51,9 @@ class ControllerDenda extends Controller
      */
     public function edit(string $id)
     {
-        $denda = DetailPeminjaman::with([
-            'buku',
-            'peminjaman',
-            'peminjaman.peminjam'
+        $denda = Peminjaman::with([
+            'peminjam',
+            'detailPeminjaman.buku'
         ])->findOrFail($id);
 
         return view(
@@ -63,7 +63,7 @@ class ControllerDenda extends Controller
     }
 
     /**
-     * PROSES PEMBAYARAN DENDA
+     * PROSES PEMBAYARAN
      */
     public function update(Request $request, string $id)
     {
@@ -71,11 +71,13 @@ class ControllerDenda extends Controller
             'dibayar' => 'required|numeric|min:0'
         ]);
 
-        $detail = DetailPeminjaman::with([
-            'peminjaman'
-        ])->findOrFail($id);
+        $peminjaman = Peminjaman::with(
+            'detailPeminjaman'
+        )->findOrFail($id);
 
-        $totalDenda = $detail->denda;
+        $totalDenda = $peminjaman
+            ->detailPeminjaman
+            ->sum('denda');
 
         $dibayar = $request->dibayar;
 
@@ -90,18 +92,13 @@ class ControllerDenda extends Controller
 
         $kembalian = $dibayar - $totalDenda;
 
-        $detail->peminjaman->update([
+        $peminjaman->update([
 
-            'totaldenda'  => $totalDenda,
-
-            'dibayar'     => $dibayar,
-
-            'kembalian'   => $kembalian,
-
-            'tunggakan'   => 0,
-
-            'statusbayar' => 'sudahbayar',
-
+            'totaldenda'   => $totalDenda,
+            'dibayar'      => $dibayar,
+            'kembalian'    => $kembalian,
+            'tunggakan'    => 0,
+            'statusbayar'  => 'sudahbayar',
             'tanggalbayar' => now(),
 
         ]);
@@ -114,9 +111,6 @@ class ControllerDenda extends Controller
             );
     }
 
-    /**
-     * TIDAK DIGUNAKAN
-     */
     public function create()
     {
         abort(404);
