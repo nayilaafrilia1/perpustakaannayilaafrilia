@@ -1,0 +1,199 @@
+PERPUSTAKAANNAYILAAFRILIA/
+│
+├── app/
+│   │
+│   ├── Http/
+│   │   │
+│   │   ├── Controllers/
+│   │   │   │
+│   │   │   ├── Auth/
+│   │   │   │   ├── ControllerAuthUser.php
+│   │   │   │   ├── ControllerAuthPeminjam.php
+│   │   │   │   └── ControllerLoginHistory.php
+│   │   │   │
+│   │   │   ├── Dashboard/
+│   │   │   │   ├── ControllerDashboardAdmin.php
+│   │   │   │   ├── ControllerDashboardPetugas.php
+│   │   │   │   └── ControllerDashboardPeminjam.php
+│   │   │   │
+│   │   │   ├── Master/
+│   │   │   │   ├── ControllerUser.php
+│   │   │   │   ├── ControllerPeminjam.php
+│   │   │   │   ├── ControllerBuku.php
+│   │   │   │   └── ControllerKategori.php
+│   │   │   │
+│   │   │   ├── Transaksi/
+│   │   │   │   ├── ControllerPeminjaman.php
+│   │   │   │   ├── ControllerPengembalian.php
+│   │   │   │   └── ControllerDenda.php
+│   │   │   │
+│   │   │   │
+│   │   │   ├── Laporan/
+│   │   │   │   ├── ControllerLaporanPeminjaman.php
+│   │   │   │   ├── ControllerLaporanPengembalian.php
+│   │   │   │   ├── ControllerLaporanDenda.php
+│   │   │   │   └── ControllerLaporanBuku.php
+│   │   │   │
+│   │   │   ├── ZonaPeminjam/
+│   │   │   │   └── ControllerZonaPeminjam.php
+│   │   │   │
+│   │   │   └── Landing/
+│   │   │       └── ControllerLanding.php
+│   │   │
+│   │   └── Middleware/
+│   │       ├── MiddlewarePeminjam.php
+│   │       └── RoleMiddleware.php
+│   │
+│   │
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Peminjam.php
+│   │   ├── Buku.php
+│   │   ├── Kategori.php
+│   │   ├── Peminjaman.php
+│   │   ├── DetailPeminjaman.php
+│   │   ├── Denda.php
+│   │   └── LoginHistory.php
+│   │
+│   │
+│   └── Services/
+│       └── HitungDendaService.php
+│
+│
+├── database/
+│   │
+│   ├── migrations/
+│   │   └── migrasiperpustakaan.php
+│   │
+│   └── seeders/
+│       └── SeederPerpustakaanNayilaAfrilia.php
+│
+│
+├── public/
+│   │
+│   ├── dist/                      ← AdminLTE
+│   ├── plugins/
+│   │
+│   ├── cover/
+│   │   └── buku/
+│   │
+│   └── fotoupload/
+│       ├── user/
+│       └── peminjam/
+│
+│
+├── resources/
+│   ├── views/
+│   │   │
+│   │   ├── layouts/
+│   │   │   ├── apptamu.blade.php
+│   │   │   ├── appuser.blade.php
+│   │   │   └── apppeminjam.blade.php
+│   │   │
+│   │   │   │
+│   │   │   ├── tamu/
+│   │   │   │   ├── navbar.blade.php
+│   │   │   │   ├── sidebar.blade.php
+│   │   │   │   └── footer.blade.php
+│   │   │   │
+│   │   │   ├── user/
+│   │   │   │   ├── navbar.blade.php
+│   │   │   │   ├── sidebaradmin.blade.php
+│   │   │   │   ├── sidebarpetugas.blade.php
+│   │   │   │   └── footer.blade.php
+│   │   │   │
+│   │   │   └── peminjam/
+│   │   │       ├── navbar.blade.php
+│   │   │       ├── sidebar.blade.php
+│   │   │       └── footer.blade.php
+│   │   │
+│   │   │
+│   │   ├── user/
+│   │   │   │
+│   │   │   ├── dashboard/
+│   │   │   │   ├── dashboardadmin.blade.php
+│   │   │   │   └── dashboardpetugas.blade.php
+│   │   │   │
+│   │   │   ├── user/
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── create.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   │   └── show.blade.php
+│   │   │   │
+│   │   │   ├── peminjam/
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── create.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   │   └── show.blade.php
+│   │   │   │
+│   │   │   ├── buku/
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── create.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   │   └── show.blade.php
+│   │   │   │
+│   │   │   ├── kategori/
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── create.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   │   └── show.blade.php
+│   │   │   │
+│   │   │   ├── peminjaman/
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── create.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   │   └── show.blade.php
+│   │   │   │
+│   │   │   ├── pengembalian/
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── show.blade.php
+│   │   │   │   └── detail.blade.php
+│   │   │   │
+│   │   │   ├── denda/
+│   │   │   │   ├── index.blade.php
+│   │   │   │   ├── edit.blade.php
+│   │   │   │   └── show.blade.php
+│   │   │   │
+│   │   │   ├── laporan/
+│   │   │       ├── peminjaman.blade.php
+│   │   │       ├── pengembalian.blade.php
+│   │   │       ├── denda.blade.php
+│   │   │       └── buku.blade.php
+│   │   │
+│   │   │
+│   │   ├── zonapeminjam/
+│   │   │   │
+│   │   │   ├── dashboard/
+│   │   │   │   └── dashboardpeminjam.blade.php
+│   │   │   │
+│   │   │   └── transaksi/
+│   │   │       ├── riwayatpeminjaman.blade.php
+│   │   │       ├── riwayatpengembalian.blade.php
+│   │   │       └── detailpeminjaman.blade.php
+│   │   │
+│   │   │
+│   │   ├── landing/
+│   │   │   ├── home.blade.php
+│   │   │   ├── katalog.blade.php
+│   │   │   ├── detailbuku.blade.php
+│   │   │   ├── kategori.blade.php
+│   │   │   ├── tentang.blade.php
+│   │   │   └── kontak.blade.php
+│   │   │
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── loginuser.blade.php
+│   │   │   ├── loginpeminjam.blade.php
+│   │   │   └── registerpeminjam.blade.php
+│   │   │
+│   │   │
+│   │   └── errors/
+│   │       ├── 403.blade.php
+│   │       ├── 404.blade.php
+│   │       └── 500.blade.php
+│
+│
+├── routes/
+│   └── web.php
+│
+└── .env
